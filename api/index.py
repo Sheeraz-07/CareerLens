@@ -1,43 +1,52 @@
 import sys
 import os
-from flask import Flask
 
-# Get the absolute path to the project root
+# Setup paths
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.dirname(current_dir)
+backend_dir = os.path.join(project_root, 'backend')
 
-# Add paths for imports
-sys.path.insert(0, project_root)
-sys.path.insert(0, os.path.join(project_root, 'backend'))
+# Add to Python path
+sys.path.insert(0, backend_dir)
+sys.path.insert(0, current_dir)
 
 try:
-    # Import Flask app
+    # Import from local app.py in api folder
     from app import create_app
+    
+    # Import extensions from backend
+    sys.path.insert(0, backend_dir)
     from extensions import db
     
     # Create app instance
     app = create_app()
     
-    # Initialize database tables (with error handling)
+    # Initialize database tables
     try:
         with app.app_context():
             db.create_all()
             print("[INFO] Database tables created successfully")
     except Exception as e:
-        print(f"[WARNING] Database initialization: {e}")
-        # Continue even if DB init fails
+        print(f"[WARNING] Database init: {e}")
 
 except Exception as e:
-    # If app creation fails, create a minimal error app
-    print(f"[ERROR] Failed to create app: {e}")
+    # Fallback error app
+    print(f"[ERROR] App creation failed: {e}")
     import traceback
     traceback.print_exc()
     
+    from flask import Flask
     app = Flask(__name__)
     
     @app.route('/')
-    def error():
-        return f"Application failed to start. Error: {str(e)}", 500
+    @app.route('/<path:path>')
+    def error(path=''):
+        import traceback as tb
+        return f"""
+        <h1>Application Startup Error</h1>
+        <p><strong>Error:</strong> {str(e)}</p>
+        <pre>{tb.format_exc()}</pre>
+        <p>Check Vercel function logs for details.</p>
+        """, 500
 
-# Export for Vercel
-# The 'app' variable is the WSGI application
+# WSGI application for Vercel
