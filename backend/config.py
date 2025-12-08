@@ -10,7 +10,14 @@ load_dotenv(dotenv_path)
 class Config:
     SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-production")
     BASE_DIR = BASE_DIR
-    UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", os.path.join(BASE_DIR, "..", "static", "uploads"))
+    
+    # Use /tmp for uploads in serverless environment (Vercel)
+    # /tmp is the only writable directory in Vercel serverless functions
+    FLASK_ENV = os.getenv("FLASK_ENV", "development")
+    if FLASK_ENV == "production":
+        UPLOAD_FOLDER = "/tmp/uploads"
+    else:
+        UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", os.path.join(BASE_DIR, "..", "static", "uploads"))
     
     # Database configuration - supports both SQLite (dev) and PostgreSQL (production)
     DATABASE_URL = os.getenv("DATABASE_URL")
