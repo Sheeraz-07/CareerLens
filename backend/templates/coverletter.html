@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Page Header -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <h2 class="mb-2">
+          <i class="bi bi-envelope-paper me-2"></i>Cover Letter Generator
+        </h2>
+        <p class="text-muted mb-0">Create a professional cover letter tailored to your resume</p>
+      </div>
+      <div class="mt-3 mt-md-0">
+        <a href="{{ url_for('dashboard.home') }}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resume Info -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="alert alert-info border-0 shadow-sm">
+      <div class="d-flex align-items-center">
+        <i class="bi bi-info-circle me-3" style="font-size: 2rem;"></i>
+        <div>
+          <h6 class="mb-1">Creating cover letter for:</h6>
+          <strong>{{ resume.filename }}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cover Letter Form -->
+<div class="row justify-content-center">
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <form method="POST" action="{{ url_for('coverletter.create_coverletter', resume_id=resume.id) }}">
+          <!-- Job Title Input -->
+          <div class="mb-4">
+            <label for="job_title" class="form-label">
+              <i class="bi bi-briefcase me-2"></i>Job Title
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="job_title" 
+              name="job_title" 
+              placeholder="e.g., Software Engineer, Marketing Manager, Data Analyst"
+              required />
+            <small class="text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Enter the exact job title from the job posting
+            </small>
+          </div>
+
+          <!-- Tone Selection -->
+          <div class="mb-4">
+            <label for="tone" class="form-label">
+              <i class="bi bi-chat-dots me-2"></i>Writing Tone
+            </label>
+            <select class="form-select" id="tone" name="tone">
+              <option value="professional" selected>Professional - Formal and business-like</option>
+              <option value="casual">Casual - Friendly and approachable</option>
+              <option value="enthusiastic">Enthusiastic - Energetic and passionate</option>
+            </select>
+            <small class="text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Choose a tone that matches the company culture
+            </small>
+          </div>
+
+          <!-- Company Name (Optional) -->
+          <div class="mb-4">
+            <label for="company_name" class="form-label">
+              <i class="bi bi-building me-2"></i>Company Name (Optional)
+            </label>
+            <input 
+              type="text" 
+              class="form-control" 
+              id="company_name" 
+              name="company_name" 
+              placeholder="e.g., Google, Microsoft, Amazon" />
+            <small class="text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Adding company name will personalize your cover letter
+            </small>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-success btn-lg">
+              <i class="bi bi-magic me-2"></i>Generate Cover Letter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Features Info -->
+<div class="row mt-5">
+  <div class="col-md-4 mb-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-lightning-charge text-warning" style="font-size: 3rem;"></i>
+        <h5 class="mt-3">Instant Generation</h5>
+        <p class="text-muted mb-0">Get your professional cover letter in seconds using AI technology</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-person-check text-success" style="font-size: 3rem;"></i>
+        <h5 class="mt-3">Personalized Content</h5>
+        <p class="text-muted mb-0">Tailored to your resume and the specific job you're applying for</p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4 mb-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body text-center">
+        <i class="bi bi-download text-primary" style="font-size: 3rem;"></i>
+        <h5 class="mt-3">Ready to Use</h5>
+        <p class="text-muted mb-0">Download and use immediately or customize further as needed</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tips Section -->
+<div class="row mt-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm bg-light">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-lightbulb-fill text-warning me-2"></i>Tips for a Great Cover Letter
+        </h5>
+        <ul class="mb-0">
+          <li class="mb-2">Choose a tone that matches the company culture and job description</li>
+          <li class="mb-2">Review and customize the generated letter to add personal touches</li>
+          <li class="mb-2">Highlight specific achievements from your resume that relate to the job</li>
+          <li class="mb-2">Keep it concise - aim for 3-4 paragraphs maximum</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

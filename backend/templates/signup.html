@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-5">
+    <div class="card shadow border-0 mt-5">
+      <div class="card-body p-5">
+        <div class="text-center mb-4">
+          <i class="bi bi-person-plus-fill text-primary" style="font-size: 4rem;"></i>
+          <h2 class="mt-3 mb-2">Create Account</h2>
+          <p class="text-muted">Join us to start analyzing your resume</p>
+        </div>
+        
+        <form method="POST" novalidate>
+          <div class="mb-3">
+            <label for="name" class="form-label">
+              <i class="bi bi-person me-2"></i>Full Name
+            </label>
+            <input class="form-control" id="name" name="name" 
+                   placeholder="John Doe" required autofocus />
+          </div>
+          
+          <div class="mb-3">
+            <label for="email" class="form-label">
+              <i class="bi bi-envelope me-2"></i>Email Address
+            </label>
+            <input class="form-control" id="email" name="email" type="email" 
+                   placeholder="your.email@example.com" required />
+          </div>
+          
+          <div class="mb-4">
+            <label for="password" class="form-label">
+              <i class="bi bi-lock me-2"></i>Password
+            </label>
+            <input class="form-control" id="password" name="password" type="password" 
+                   placeholder="Create a strong password" required />
+            <small class="text-muted">
+              <i class="bi bi-info-circle me-1"></i>Use at least 8 characters
+            </small>
+          </div>
+          
+          <button class="btn btn-success w-100 btn-lg mb-3">
+            <i class="bi bi-check-circle me-2"></i>Create Account
+          </button>
+        </form>
+        
+        <hr class="my-4">
+        
+        <div class="text-center">
+          <p class="text-muted mb-0">Already have an account?</p>
+          <a href="{{ url_for('auth.login') }}" class="btn btn-outline-primary mt-2">
+            <i class="bi bi-box-arrow-in-right me-2"></i>Login
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,239 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- Page Header -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center flex-wrap">
+      <div>
+        <h2 class="mb-2">
+          <i class="bi bi-file-earmark-text me-2"></i>Resume Analysis
+        </h2>
+        <p class="text-muted mb-0">{{ resume.filename }}</p>
+      </div>
+      <div class="mt-3 mt-md-0">
+        <a href="{{ url_for('dashboard.home') }}" class="btn btn-outline-secondary">
+          <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Resume Info Card -->
+<div class="row mb-4">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-shrink-0">
+            <i class="bi bi-file-earmark-pdf text-danger" style="font-size: 3rem;"></i>
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h4 class="mb-1">{{ resume.filename }}</h4>
+            <p class="text-muted mb-0">
+              <i class="bi bi-calendar3 me-1"></i>
+              Uploaded: {{ resume.uploaded_at.strftime('%B %d, %Y at %I:%M %p') if resume.uploaded_at else 'N/A' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Analysis Section -->
+{% if resume.analysis %}
+  {% if resume.analysis.error %}
+    <!-- Error Display -->
+    <div class="row">
+      <div class="col-12">
+        <div class="alert alert-danger border-0 shadow-sm">
+          <h5><i class="bi bi-exclamation-triangle me-2"></i>Analysis Error</h5>
+          <p class="mb-0">{{ resume.analysis.error }}</p>
+        </div>
+      </div>
+    </div>
+  {% elif resume.analysis.raw_response %}
+    <!-- Raw Response Display -->
+    <div class="row">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h4 class="card-title"><i class="bi bi-code-square me-2"></i>Raw AI Response</h4>
+            <pre class="bg-light p-3 rounded" style="max-height: 400px; overflow-y: auto;">{{ resume.analysis.raw_response }}</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <!-- Score Card -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body text-center">
+            <i class="bi bi-star-fill text-warning" style="font-size: 3rem;"></i>
+            <h3 class="mt-3 mb-2">{{ resume.analysis.score or "N/A" }}</h3>
+            <p class="text-muted mb-0">Overall Score</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title"><i class="bi bi-briefcase me-2"></i>Suggested Roles</h5>
+            <p class="mb-0">
+              {% if resume.analysis.suggested_roles %}
+                {% if resume.analysis.suggested_roles is string %}
+                  {{ resume.analysis.suggested_roles }}
+                {% else %}
+                  {{ resume.analysis.suggested_roles | join(', ') }}
+                {% endif %}
+              {% else %}
+                <span class="text-muted">No specific roles suggested</span>
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strengths -->
+    <div class="row mb-4">
+      <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-success">
+              <i class="bi bi-check-circle me-2"></i>Strengths
+            </h5>
+            {% if resume.analysis.strengths %}
+              <ul class="list-unstyled mb-0">
+                {% for s in resume.analysis.strengths %}
+                  <li class="mb-2">
+                    <i class="bi bi-check2 text-success me-2"></i>{{ s }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted mb-0">No strengths identified</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Weaknesses -->
+      <div class="col-md-6 mb-3">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body">
+            <h5 class="card-title text-warning">
+              <i class="bi bi-exclamation-circle me-2"></i>Areas for Improvement
+            </h5>
+            {% if resume.analysis.weaknesses %}
+              <ul class="list-unstyled mb-0">
+                {% for w in resume.analysis.weaknesses %}
+                  <li class="mb-2">
+                    <i class="bi bi-arrow-right text-warning me-2"></i>{{ w }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted mb-0">No weaknesses identified</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Missing Skills -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-puzzle me-2"></i>Missing Skills
+            </h5>
+            {% if resume.analysis.missing_skills %}
+              <div class="d-flex flex-wrap gap-2">
+                {% for skill in resume.analysis.missing_skills %}
+                  <span class="badge bg-secondary">{{ skill }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted mb-0">No missing skills identified</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recommended Courses -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-book me-2"></i>Recommended Courses & Certifications
+            </h5>
+            {% if resume.analysis.recommended_courses_or_certs %}
+              <ul class="mb-0">
+                {% for rec in resume.analysis.recommended_courses_or_certs %}
+                  <li class="mb-2">{{ rec }}</li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted mb-0">No specific recommendations</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Advice -->
+    <div class="row mb-4">
+      <div class="col-12">
+        <div class="card border-0 shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title">
+              <i class="bi bi-lightbulb me-2"></i>Expert Advice
+            </h5>
+            {% if resume.analysis.concise_advice %}
+              <div class="alert alert-info border-0">
+                <ul class="mb-0">
+                  {% for advice in resume.analysis.concise_advice %}
+                    <li class="mb-2">{{ advice }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+            {% else %}
+              <p class="text-muted mb-0">No specific advice available</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% else %}
+  <!-- No Analysis Available -->
+  <div class="row">
+    <div class="col-12">
+      <div class="alert alert-warning border-0 shadow-sm">
+        <h5><i class="bi bi-info-circle me-2"></i>No Analysis Available</h5>
+        <p class="mb-0">This resume hasn't been analyzed yet. Please try uploading it again or contact support.</p>
+      </div>
+    </div>
+  </div>
+{% endif %}
+
+<!-- Resume Text -->
+<div class="row">
+  <div class="col-12">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h5 class="card-title">
+          <i class="bi bi-file-text me-2"></i>Resume Text
+        </h5>
+        <pre class="bg-light p-3 rounded" style="max-height: 500px; overflow-y: auto; white-space: pre-wrap; word-wrap: break-word;">{{ resume.text }}</pre>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

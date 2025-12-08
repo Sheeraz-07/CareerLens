@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row align-items-center min-vh-80" style="min-height: 70vh;">
+    <div class="col-lg-6 text-center text-lg-start mb-5 mb-lg-0">
+        <h1 class="display-3 fw-bold mb-3">Unlock Your Career Potential</h1>
+        <p class="lead mb-4">AI-powered resume analysis, career advice, and cover letter generation for students and job seekers.</p>
+        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center justify-content-lg-start">
+            <a href="{{ url_for('resume.upload_resume') }}" class="btn btn-primary btn-lg px-4">Upload Resume</a>
+            
+            <a href="{{ url_for('career_advice') }}" class="btn btn-outline-secondary btn-lg px-4">Get Career Advice</a>
+        </div>
+    </div>
+    <div class="col-lg-6 text-center">
+<img src="{{ url_for('static', filename='images/character-high-school-student-in-school-uniform-illustration-vector.jpg') }}"
+    alt="Career Growth" class="img-fluid rounded shadow" style="max-height: 350px;">    </div>
+</div>
+<div class="row mt-5">
+    <div class="col-md-4 text-center">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">AI Resume Analysis</h5>
+                <p class="card-text">Get instant feedback on your resume, discover strengths, and receive actionable suggestions to improve your chances.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Career Path Advisor</h5>
+                <p class="card-text">Explore career options tailored to your skills and interests, powered by advanced AI and real-world data.</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 text-center">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">Cover Letter Generator</h5>
+                <p class="card-text">Generate professional, personalized cover letters for any job application in seconds.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="text-center text-muted mt-5 small">&copy; 2025 AI Resume Analyzer. All rights reserved.</div>
+{% endblock %}
