@@ -1,0 +1,8 @@
+[project]
+name = "career-lens"
+version = "1.0.0"
+requires-python = ">=3.9,<3.13"
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
