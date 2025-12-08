@@ -1,39 +1,43 @@
 import sys
 import os
+from flask import Flask
 
-# Get the project root directory (parent of api/)
-project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Get the absolute path to the project root
+current_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.dirname(current_dir)
 
-# Add both project root and backend to Python path
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
+# Add paths for imports
+sys.path.insert(0, project_root)
+sys.path.insert(0, os.path.join(project_root, 'backend'))
 
-backend_dir = os.path.join(project_root, 'backend')
-if backend_dir not in sys.path:
-    sys.path.insert(0, backend_dir)
-
-# Import the Flask app
 try:
-    from backend.app import create_app
-    from backend.extensions import db
-except ImportError as e:
-    print(f"Import error: {e}")
-    print(f"Python path: {sys.path}")
-    print(f"Project root: {project_root}")
-    print(f"Backend dir: {backend_dir}")
-    raise
+    # Import Flask app
+    from app import create_app
+    from extensions import db
+    
+    # Create app instance
+    app = create_app()
+    
+    # Initialize database tables (with error handling)
+    try:
+        with app.app_context():
+            db.create_all()
+            print("[INFO] Database tables created successfully")
+    except Exception as e:
+        print(f"[WARNING] Database initialization: {e}")
+        # Continue even if DB init fails
 
-# Create the app instance
-app = create_app()
-
-# Initialize database tables
-try:
-    with app.app_context():
-        db.create_all()
 except Exception as e:
-    print(f"Database initialization error: {e}")
-    # Don't fail if database init fails (might be permissions issue)
-    pass
+    # If app creation fails, create a minimal error app
+    print(f"[ERROR] Failed to create app: {e}")
+    import traceback
+    traceback.print_exc()
+    
+    app = Flask(__name__)
+    
+    @app.route('/')
+    def error():
+        return f"Application failed to start. Error: {str(e)}", 500
 
-# This is the entry point for Vercel
-# Vercel will call this 'app' object to handle requests
+# Export for Vercel
+# The 'app' variable is the WSGI application

@@ -1,8 +1,12 @@
 [project]
 name = "career-lens"
 version = "1.0.0"
-requires-python = ">=3.9,<3.13"
+requires-python = ">=3.9,<4.0"
+description = "AI-powered resume analyzer and cover letter generator"
 
 [build-system]
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.vercel]
+python-version = "3.9"
