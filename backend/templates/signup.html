@@ -10,13 +10,16 @@
           <p class="text-muted">Join us to start analyzing your resume</p>
         </div>
         
-        <form method="POST" novalidate>
+        <form method="POST">
           <div class="mb-3">
             <label for="name" class="form-label">
               <i class="bi bi-person me-2"></i>Full Name
             </label>
-            <input class="form-control" id="name" name="name" 
-                   placeholder="John Doe" required autofocus />
+            <input class="form-control" id="name" name="name" type="text" 
+                   placeholder="John Doe" required autofocus 
+                   minlength="2" 
+                   pattern="[A-Za-z\s]+" 
+                   title="Please enter your full name (letters and spaces only)" />
           </div>
           
           <div class="mb-3">
@@ -24,7 +27,9 @@
               <i class="bi bi-envelope me-2"></i>Email Address
             </label>
             <input class="form-control" id="email" name="email" type="email" 
-                   placeholder="your.email@example.com" required />
+                   placeholder="your.email@example.com" required 
+                   pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" 
+                   title="Please enter a valid email address" />
           </div>
           
           <div class="mb-4">
@@ -32,9 +37,11 @@
               <i class="bi bi-lock me-2"></i>Password
             </label>
             <input class="form-control" id="password" name="password" type="password" 
-                   placeholder="Create a strong password" required />
+                   placeholder="Create a strong password" required 
+                   minlength="6" 
+                   title="Password must be at least 6 characters long" />
             <small class="text-muted">
-              <i class="bi bi-info-circle me-1"></i>Use at least 8 characters
+              <i class="bi bi-info-circle me-1"></i>Use at least 6 characters
             </small>
           </div>
           
