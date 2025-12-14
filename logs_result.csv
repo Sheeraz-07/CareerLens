@@ -1,0 +1,425 @@
+TimeUTC,timestampInMs,requestPath,requestMethod,requestQueryString,responseStatusCode,requestId,requestUserAgent,level,environment,branch,vercelCache,type,function,host,deploymentDomain,deploymentId,durationMs,region,maxMemoryUsed,memorySize,message,projectId,traceId,sessionId,invocationId,instanceId,concurrency
+2025-12-08 19:13:55,1765221235472,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,q9zr6-1765221234941-82f73f929fcd,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",error,production,main,MISS,serverless,/favicon.ico,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:54,1765221234941,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,q9zr6-1765221234941-82f73f929fcd,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,177,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP4YJG79QTSEHZEDSMBJM9,,-1
+2025-12-08 19:13:54,1765221234569,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,wjdvw-1765221234018-17abafbe5f12,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:54,1765221234018,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,wjdvw-1765221234018-17abafbe5f12,"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36",,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,178,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP4XP85SRGG7YJHZ6Y3NYX,,-1
+2025-12-08 19:13:27,1765221207119,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,500,x2rp7-1765221206884-dc33f048a84f,vercel-favicon/1.0,error,production,main,MISS,serverless,/favicon.png,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:26,1765221206884,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,500,x2rp7-1765221206884-dc33f048a84f,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,180,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP42WB34FKM9D225B1ZV90,,-1
+2025-12-08 19:13:24,1765221204779,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,,c2wpx-1765221204520-6177b01ed796,vercel-favicon/1.0,error,production,main,,serverless,,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:24,1765221204520,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,,c2wpx-1765221204520-6177b01ed796,vercel-favicon/1.0,,production,main,,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,197,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP40JP9W1RPRW0W4XNBQBK,,-1
+2025-12-08 19:13:23,1765221203417,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,500,wv57h-1765221203173-1b70dde6ee12,vercel-favicon/1.0,error,production,main,MISS,serverless,/favicon.png,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:23,1765221203173,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.png,GET,,500,wv57h-1765221203173-1b70dde6ee12,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,177,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3Z8VHC9ZCFR6RAWDWS8G,,-1
+2025-12-08 19:13:23,1765221203072,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,znpzl-1765221202841-8a298b99592d,vercel-favicon/1.0,error,production,main,MISS,serverless,/favicon.ico,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:22,1765221202841,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,znpzl-1765221202841-8a298b99592d,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,173,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3YY6J2RDVN9570TGSH6S,,-1
+2025-12-08 19:13:20,1765221200684,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,6nmfs-1765221200429-6b405fb80929,vercel-favicon/1.0,error,production,main,MISS,serverless,/favicon.ico,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:20,1765221200429,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,6nmfs-1765221200429-6b405fb80929,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,182,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3WJTEJT914TZ4S0W26R7,,-1
+2025-12-08 19:13:19,1765221199362,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,wcsxp-1765221199112-27b54e82f3df,vercel-favicon/1.0,error,production,main,MISS,serverless,/favicon.ico,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:19,1765221199112,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,wcsxp-1765221199112-27b54e82f3df,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,179,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3V9JHP4J0NNXJBAF87PT,,-1
+2025-12-08 19:13:18,1765221198983,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,758xq-1765221198744-e89f3529c824,vercel-favicon/1.0,error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:18,1765221198744,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,758xq-1765221198744-e89f3529c824,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,171,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3TYD6C1ME72NWP2QJAJA,,-1
+2025-12-08 19:13:17,1765221197696,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,xnnsz-1765221197458-b01da93c50ec,vercel-favicon/1.0,error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:17,1765221197458,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,xnnsz-1765221197458-b01da93c50ec,vercel-favicon/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,172,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3SP4WX4HPTXK8DPV1M4X,,-1
+2025-12-08 19:13:17,1765221197366,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,blv5m-1765221197128-4242bba7f8d6,vercel-screenshot/1.0,error,production,main,MISS,serverless,/favicon.ico,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:17,1765221197128,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,500,blv5m-1765221197128-4242bba7f8d6,vercel-screenshot/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,176,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3SBPTC3F7BA3XA33XNR5,,-1
+2025-12-08 19:13:17,1765221197112,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,,gvcql-1765221196770-0c05c8169639,vercel-screenshot/1.0,error,production,main,,serverless,,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:16,1765221196770,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/favicon.ico,GET,,,gvcql-1765221196770-0c05c8169639,vercel-screenshot/1.0,,production,main,,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,175,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3S3RXA7GBRPQ49QG5S99,,-1
+2025-12-08 19:13:17,1765221197059,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,2n7md-1765221196720-a9bb420d7919,vercel-screenshot/1.0,error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:16,1765221196720,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,2n7md-1765221196720-a9bb420d7919,vercel-screenshot/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,181,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3S1Q7CN9T075TC30E3PP,,-1
+2025-12-08 19:13:16,1765221196673,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,,jfmpz-1765221196326-ba67fe72a22f,vercel-screenshot/1.0,error,production,main,,serverless,,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:16,1765221196326,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,,jfmpz-1765221196326-ba67fe72a22f,vercel-screenshot/1.0,,production,main,,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,184,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3RNQC8GYJSA3B7TVEB0F,,-1
+2025-12-08 19:13:16,1765221196603,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,q4zvf-1765221195708-b792fd5aef0f,vercel-screenshot/1.0,error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.
+Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:15,1765221195708,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,q4zvf-1765221195708-b792fd5aef0f,vercel-screenshot/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,182,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3R654VA4TBPE5XS8B14D,,-1
+2025-12-08 19:13:16,1765221196181,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,b4njf-1765221195703-bb35fdb7bc6e,vercel-screenshot/1.0,error,production,main,MISS,serverless,/,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,,,,,"Error importing api/index.py:
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+During handling of the above exception, another exception occurred:
+Traceback (most recent call last):
+File ""/var/task/vc__handler__python.py"", line 243, in <module>
+__vc_spec.loader.exec_module(__vc_module)
+File ""<frozen importlib._bootstrap_external>"", line 999, in exec_module
+File ""<frozen importlib._bootstrap>"", line 488, in _call_with_frames_removed
+File ""/var/task/api/index.py"", line 38, in <module>
+from flask import Flask
+ModuleNotFoundError: No module named 'flask'
+[ERROR] App creation failed: No module named 'flask'
+Traceback (most recent call last):
+File ""/var/task/api/index.py"", line 15, in <module>
+from app import create_app
+File ""/var/task/api/app.py"", line 5, in <module>
+from flask import Flask, render_template
+ModuleNotFoundError: No module named 'flask'
+Python process exited with exit status: 1. The logs above can help with debugging the issue.",prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,,,
+2025-12-08 19:13:15,1765221195703,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app/,GET,,500,b4njf-1765221195703-bb35fdb7bc6e,vercel-screenshot/1.0,,production,main,MISS,serverless,/api/index.py,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,career-lens-btfnxy7qq-muhammad-sheerazs-projects-8cdad0f4.vercel.app,dpl_2BkRa8qG7Du56eyKgpxozy9GTb3K,192,iad1,-1,2048,,prj_1Tt8ehQngg1ItoqNuAjFI6ln8Q3M,,,01KBZP3R60Z4KPBK2RJ86ZC8FT,,-1
