@@ -5,6 +5,7 @@ from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
 from routes.resume import resume_bp
 from routes.coverletter import coverletter_bp
+import models  # Import models to register user_loader decorator
 import os
 
 def create_app():
