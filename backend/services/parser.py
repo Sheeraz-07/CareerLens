@@ -598,7 +598,10 @@ def simple_skill_extractor(text, skills_list=None):
     return found
 
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 13ab9cda91ca1b46a40a49a6b5f3de2b01c504c7
 def extract_name_from_text(text):
     """
     Attempts to extract candidate name from resume text.

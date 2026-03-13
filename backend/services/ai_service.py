@@ -107,6 +107,10 @@ def analyze_resume_text(raw_text, parsed_data):
             print("[ERROR] LongCat API call failed:", e)
         return {"error": str(e)}
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 13ab9cda91ca1b46a40a49a6b5f3de2b01c504c7
 # def build_analysis_prompt(raw_text, parsed_data):
 #     skills = parsed_data.get("skills", [])
 #     snippet = raw_text[:2500]  # increased for better analysis
@@ -172,6 +176,10 @@ def analyze_resume_text(raw_text, parsed_data):
 # """
 #     return prompt
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 13ab9cda91ca1b46a40a49a6b5f3de2b01c504c7
 def build_analysis_prompt(raw_text, parsed_data):
     skills = parsed_data.get("skills", [])
     snippet = raw_text[:2500]  # increased for better analysis
@@ -295,7 +303,11 @@ You MUST analyze the resume across MULTIPLE dimensions and calculate scores inde
 - Spelling errors (per error): -2 points (max -10)
 - Grammar errors (per error): -2 points (max -10)
 - Tables/columns/graphics: -15 points
+<<<<<<< HEAD
 - Resume > 4 pages: -8 points
+=======
+- Resume > 2 pages: -8 points
+>>>>>>> 13ab9cda91ca1b46a40a49a6b5f3de2b01c504c7
 - Resume < 0.5 pages: -10 points
 - Unprofessional email: -5 points
 - No quantifiable achievements: -12 points
