@@ -27,12 +27,14 @@ class Config:
     
     SQLALCHEMY_DATABASE_URI = DATABASE_URL or "sqlite:///" + os.path.join(BASE_DIR, "database.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    LONGCAT_API_KEY = os.getenv("LONGCAT_API_KEY")
+    LONGCAT_BASE_URL = os.getenv("LONGCAT_BASE_URL", "https://api.longcat.chat/openai/")
+    LONGCAT_MODEL = os.getenv("LONGCAT_MODEL", "longcat-flash-chat")
     
     # Only print debug info in development
     FLASK_ENV = os.getenv("FLASK_ENV", "development")
     if FLASK_ENV == "development":
-        if OPENAI_API_KEY:
-            print(f"[CONFIG] OpenAI API Key loaded: {OPENAI_API_KEY[:20]}...")
+        if LONGCAT_API_KEY:
+            print(f"[CONFIG] LongCat API Key loaded: {LONGCAT_API_KEY[:20]}...")
         else:
-            print("[CONFIG] WARNING: OpenAI API Key not found!")
+            print("[CONFIG] WARNING: LongCat API Key not found!")
