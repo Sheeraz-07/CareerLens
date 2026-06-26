@@ -50,3 +50,4 @@ except Exception as e:
         """, 500
 
 # WSGI application for Vercel
+application = app
