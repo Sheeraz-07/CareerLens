@@ -5,6 +5,9 @@ from routes.auth import auth_bp
 from routes.dashboard import dashboard_bp
 from routes.resume import resume_bp
 from routes.coverletter import coverletter_bp
+from routes.job_match import job_match_bp
+from routes.interview import interview_bp
+from routes.career import career_bp
 import models  # Import models to register user_loader decorator
 import os
 
@@ -50,6 +53,9 @@ def create_app():
     app.register_blueprint(dashboard_bp)
     app.register_blueprint(resume_bp)
     app.register_blueprint(coverletter_bp)
+    app.register_blueprint(job_match_bp)
+    app.register_blueprint(interview_bp)
+    app.register_blueprint(career_bp)
 
     # Home page route
     @app.route("/")

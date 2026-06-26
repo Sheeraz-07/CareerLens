@@ -26,13 +26,9 @@ def get_openrouter_client():
     except Exception as e:
         raise
 
-def get_openai_client():
-    """Backward-compatible alias for older imports."""
-    return get_longcat_client()
-
 def analyze_resume_text(raw_text, parsed_data):
     """
-    Sends a prompt to LongCat to analyze strengths/weaknesses, suggest roles,
+    Sends a prompt to OpenRouter to analyze strengths/weaknesses, suggest roles,
     missing skills, recommended certs/courses, and a resume score.
     Returns structured JSON or raw text on failure.
     """
@@ -698,12 +694,10 @@ def generate_cover_letter(resume_text, parsed_data, job_title, tone="professiona
     except Exception as e:
         flask_env = current_app.config.get('FLASK_ENV', 'development')
         if flask_env == 'development':
-            print("[ERROR] LongCat API call failed:", e)
-            print("[ERROR] LongCat API call failed:", e)
+            print("[ERROR] OpenRouter API call failed:", e)
         error_msg = f"Failed to generate cover letter: {str(e)}"
         if "api_key" in str(e).lower():
-            error_msg += "\n\nPlease ensure your LONGCAT_API_KEY is set correctly in your environment variables."
-            error_msg += "\n\nPlease ensure your LONGCAT_API_KEY is set correctly in your environment variables."
+            error_msg += "\n\nPlease ensure your OPENROUTER_API_KEY is set correctly in your environment variables."
         return error_msg
 
 def build_cover_letter_prompt(resume_text, parsed_data, job_title, tone):
@@ -730,4 +724,155 @@ Limit to 400 words. Output plain text only.
 """
     return prompt
 
+def analyze_job_match(resume_text, job_description):
+    try:
+        client = get_openrouter_client()
+        prompt = f"""
+You are an expert ATS System. Analyze the resume against the job description.
+Resume: {resume_text}
+Job Description: {job_description}
 
+Return ONLY a valid JSON object with the following structure:
+{{
+  "match_score": <int 0-100>,
+  "matching_skills": ["skill1", "skill2"],
+  "missing_skills": ["skill1", "skill2"],
+  "missing_keywords": ["keyword1", "keyword2"],
+  "suggested_resume_changes": ["change1", "change2"],
+  "priority_improvements": ["improvement1", "improvement2"]
+}}
+"""
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=2000
+        )
+        content = response.choices[0].message.content
+        # Extract json
+        start_idx = content.find('{')
+        end_idx = content.rfind('}') + 1
+        if start_idx != -1 and end_idx != 0:
+            content = content[start_idx:end_idx]
+        return json.loads(content)
+    except Exception as e:
+        print("[ERROR] analyze_job_match failed:", e)
+        return {"error": str(e)}
+
+def tailor_resume(resume_text, job_description):
+    try:
+        client = get_openrouter_client()
+        prompt = f"""
+You are an expert Resume Writer. Tailor the following resume for this job description WITHOUT fabricating experience.
+Return the complete tailored resume text in plain text or simple markdown format.
+
+Resume: {resume_text}
+Job Description: {job_description}
+"""
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.5,
+            max_tokens=3000
+        )
+        return response.choices[0].message.content
+    except Exception as e:
+        print("[ERROR] tailor_resume failed:", e)
+        return ""
+
+def generate_interview_questions(resume_text, job_description=""):
+    try:
+        client = get_openrouter_client()
+        prompt = f"""
+You are an expert Technical Interviewer. Generate interview questions based on the candidate's resume and target job description (if provided).
+Resume: {resume_text}
+Job Description: {job_description}
+
+Return ONLY a valid JSON object with:
+{{
+  "technical": ["q1", "q2"],
+  "behavioral": ["q1", "q2"],
+  "project_based": ["q1", "q2"],
+  "hr": ["q1", "q2"]
+}}
+"""
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.7,
+            max_tokens=2000
+        )
+        content = response.choices[0].message.content
+        start_idx = content.find('{')
+        end_idx = content.rfind('}') + 1
+        if start_idx != -1 and end_idx != 0:
+            content = content[start_idx:end_idx]
+        return json.loads(content)
+    except Exception as e:
+        print("[ERROR] generate_interview_questions failed:", e)
+        return {"error": str(e)}
+
+def estimate_salary(skills, experience_summary, location, role):
+    try:
+        client = get_openrouter_client()
+        prompt = f"""
+You are a Salary Estimator. Estimate the salary for this role based on real-time market data.
+Role: {role}
+Location: {location}
+Skills: {skills}
+Experience: {experience_summary}
+
+Return ONLY a valid JSON object with:
+{{
+  "estimated_range": "$XXX,XXX - $YYY,YYY",
+  "average_salary": "$ZZZ,ZZZ",
+  "market_demand": "<Low/Medium/High> - Brief explanation"
+}}
+"""
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=1000
+        )
+        content = response.choices[0].message.content
+        start_idx = content.find('{')
+        end_idx = content.rfind('}') + 1
+        if start_idx != -1 and end_idx != 0:
+            content = content[start_idx:end_idx]
+        return json.loads(content)
+    except Exception as e:
+        print("[ERROR] estimate_salary failed:", e)
+        return {"error": str(e)}
+
+def generate_career_roadmap(parsed_resume_text):
+    try:
+        client = get_openrouter_client()
+        prompt = f"""
+You are an AI Career Coach. Provide a personalized career roadmap based on this resume.
+Resume: {parsed_resume_text}
+
+Return ONLY a valid JSON object with:
+{{
+  "learning_roadmap": ["step1", "step2"],
+  "missing_technologies": ["tech1", "tech2"],
+  "certifications": ["cert1", "cert2"],
+  "project_ideas": ["proj1", "proj2"],
+  "career_growth_suggestions": ["sug1", "sug2"]
+}}
+"""
+        response = client.chat.completions.create(
+            model="openai/gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.5,
+            max_tokens=2000
+        )
+        content = response.choices[0].message.content
+        start_idx = content.find('{')
+        end_idx = content.rfind('}') + 1
+        if start_idx != -1 and end_idx != 0:
+            content = content[start_idx:end_idx]
+        return json.loads(content)
+    except Exception as e:
+        print("[ERROR] generate_career_roadmap failed:", e)
+        return {"error": str(e)}

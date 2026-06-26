@@ -55,8 +55,7 @@ def create_app():
         from flask import request
         from flask_login import current_user
         from models import Resume
-        from services.ai_service import get_longcat_client
-        from services.ai_service import get_longcat_client
+        from services.ai_service import get_openrouter_client
         
         advice = None
         resume_text = ""
@@ -81,12 +80,11 @@ def create_app():
             
             if resume_text.strip():
                 try:
-                    client = get_longcat_client()
-                    client = get_longcat_client()
+                    client = get_openrouter_client()
                     prompt = build_career_advice_prompt(resume_text, interests)
                     
                     response = client.chat.completions.create(
-                        model="LongCat-2.0-Preview",
+                        model="openai/gpt-3.5-turbo",
                         messages=[{"role": "user", "content": prompt}],
                         temperature=0.7,
                         max_tokens=3000

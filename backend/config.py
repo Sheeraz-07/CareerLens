@@ -27,12 +27,12 @@ class Config:
     
     SQLALCHEMY_DATABASE_URI = DATABASE_URL or "sqlite:///" + os.path.join(BASE_DIR, "database.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
     
     # Only print debug info in development
     FLASK_ENV = os.getenv("FLASK_ENV", "development")
     if FLASK_ENV == "development":
-        if OPENAI_API_KEY:
-            print(f"[CONFIG] OpenAI API Key loaded: {OPENAI_API_KEY[:20]}...")
+        if OPENROUTER_API_KEY:
+            print(f"[CONFIG] OpenRouter API Key loaded: {OPENROUTER_API_KEY[:20]}...")
         else:
-            print("[CONFIG] WARNING: OpenAI API Key not found!")
+            print("[CONFIG] WARNING: OpenRouter API Key not found!")

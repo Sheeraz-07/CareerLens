@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4 fade-in">
+  <div class="col-12">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="mb-0"><i class="bi bi-briefcase me-2"></i>Match Analysis: {{ match.job_title }}</h2>
+      <a href="{{ url_for('job_match.index') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left me-2"></i>Back to Matcher
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row fade-in" style="animation-delay: 0.1s;">
+  <!-- ATS Score -->
+  <div class="col-md-4 mb-4">
+    <div class="card border-0 shadow-sm h-100 text-center">
+      <div class="card-body d-flex flex-column justify-content-center align-items-center">
+        <h4 class="card-title text-muted mb-4">ATS Match Score</h4>
+        {% set score = match.match_score|int %}
+        <svg viewBox="0 0 36 36" class="circular-chart {% if score >= 80 %}success{% elif score >= 50 %}warning{% else %}danger{% endif %}" style="max-height: 150px; max-width: 150px;">
+          <path class="circle-bg"
+            d="M18 2.0845
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+          <path class="circle"
+            stroke-dasharray="{{ score }}, 100"
+            d="M18 2.0845
+              a 15.9155 15.9155 0 0 1 0 31.831
+              a 15.9155 15.9155 0 0 1 0 -31.831"
+          />
+          <text x="18" y="20.35" class="percentage">{{ score }}%</text>
+        </svg>
+        <p class="mt-3 text-muted">Based on your {{ match.resume.filename }} resume.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Skill Gap Analysis -->
+  <div class="col-md-8 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-bar-chart-steps me-2"></i>Skill Gap Analysis</h4>
+        
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <h6 class="text-success fw-bold"><i class="bi bi-check-circle me-1"></i>Matching Skills</h6>
+            {% if match.analysis and match.analysis.get('matching_skills') %}
+              <div class="d-flex flex-wrap gap-2">
+                {% for skill in match.analysis.get('matching_skills', []) %}
+                  <span class="badge bg-success bg-opacity-10 text-success border border-success">{{ skill }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted small">No significant matches found.</p>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-6 mb-3">
+            <h6 class="text-danger fw-bold"><i class="bi bi-x-circle me-1"></i>Missing Skills / Keywords</h6>
+            {% if match.analysis and (match.analysis.get('missing_skills') or match.analysis.get('missing_keywords')) %}
+              <div class="d-flex flex-wrap gap-2">
+                {% for skill in match.analysis.get('missing_skills', []) %}
+                  <span class="badge bg-danger bg-opacity-10 text-danger border border-danger">{{ skill }}</span>
+                {% endfor %}
+                {% for kw in match.analysis.get('missing_keywords', []) %}
+                  <span class="badge bg-warning bg-opacity-10 text-warning border border-warning">{{ kw }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted small">No missing skills detected!</p>
+            {% endif %}
+          </div>
+        </div>
+        
+        <hr class="my-3 opacity-25">
+        
+        <h6 class="text-primary fw-bold"><i class="bi bi-lightning-charge me-1"></i>Priority Improvements</h6>
+        {% if match.analysis and match.analysis.get('priority_improvements') %}
+          <ul class="list-unstyled mb-0">
+            {% for imp in match.analysis.get('priority_improvements', []) %}
+              <li class="mb-2"><i class="bi bi-arrow-right-short text-primary"></i> {{ imp }}</li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted small mb-0">No priority improvements listed.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tailored Resume -->
+<div class="row fade-in" style="animation-delay: 0.2s;">
+  <div class="col-12 mb-4">
+    <div class="card border-0 shadow-sm">
+      <div class="card-body">
+        <h4 class="card-title mb-4">
+          <i class="bi bi-magic me-2 text-primary"></i>AI Tailored Resume
+        </h4>
+        <p class="text-muted small mb-3">This version of your resume has been optimized for the target job description based on your actual experience.</p>
+        
+        <div class="bg-light p-4 rounded border" style="white-space: pre-wrap; font-family: 'Inter', sans-serif;">{{ match.tailored_resume }}</div>
+        
+        <div class="mt-4">
+          <button class="btn btn-primary" onclick="copyToClipboard()">
+            <i class="bi bi-clipboard me-2"></i>Copy to Clipboard
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function copyToClipboard() {
+  const text = `{{ match.tailored_resume | replace('\n', '\\n') | replace('\r', '') | replace("'", "\\'") | replace('"', '\\"') }}`;
+  navigator.clipboard.writeText(text).then(function() {
+    alert('Tailored resume copied to clipboard!');
+  }, function(err) {
+    console.error('Could not copy text: ', err);
+  });
+}
+</script>
+{% endblock %}

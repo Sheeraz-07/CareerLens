@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4 fade-in">
+  <div class="col-12">
+    <h2 class="mb-2"><i class="bi bi-mic me-2"></i>Interview Preparation</h2>
+    <p class="text-muted">Generate technical, behavioral, and HR questions tailored to your resume and target job.</p>
+  </div>
+</div>
+
+<div class="row fade-in" style="animation-delay: 0.1s;">
+  <div class="col-lg-5 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-plus-circle me-2"></i>New Practice Session</h4>
+        
+        <form method="POST" action="{{ url_for('interview.index') }}">
+          <div class="mb-3">
+            <label class="form-label">Select Resume</label>
+            <select name="resume_id" class="form-select" required>
+              <option value="" disabled selected>Choose a resume...</option>
+              {% for r in resumes %}
+                <option value="{{ r.id }}">{{ r.filename }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label">Job Description (Optional, but recommended)</label>
+            <textarea name="job_description" class="form-control" rows="5" placeholder="Paste the job description to get role-specific questions..."></textarea>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-gear me-2"></i>Generate Questions
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-7 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-clock-history me-2"></i>Saved Sessions</h4>
+        
+        {% if preps %}
+          <div class="list-group list-group-flush">
+            {% for p in preps %}
+              <div class="list-group-item border rounded mb-3 p-3 shadow-sm transition">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h5 class="mb-1 text-primary"><i class="bi bi-person-lines-fill me-2"></i>Session #{{ p.id }}</h5>
+                    <p class="text-muted small mb-0">Resume: {{ p.resume.filename }} | Date: {{ p.created_at.strftime('%B %d, %Y') }}</p>
+                  </div>
+                  <div class="d-flex gap-2">
+                    <a href="{{ url_for('interview.view', prep_id=p.id) }}" class="btn btn-sm btn-outline-primary">
+                      <i class="bi bi-eye"></i>
+                    </a>
+                    <form method="POST" action="{{ url_for('interview.delete', prep_id=p.id) }}" style="display:inline;" onsubmit="return confirm('Delete this session?');">
+                      <button type="submit" class="btn btn-sm btn-outline-danger">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="text-center py-5">
+            <i class="bi bi-mic-mute text-muted opacity-50" style="font-size: 4rem;"></i>
+            <p class="text-muted mt-3 mb-0">No interview prep sessions yet.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

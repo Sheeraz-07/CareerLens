@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4 fade-in">
+  <div class="col-12">
+    <h2 class="mb-2"><i class="bi bi-compass me-2"></i>Career Hub</h2>
+    <p class="text-muted">Estimate salaries and generate personalized career roadmaps.</p>
+  </div>
+</div>
+
+<div class="row fade-in" style="animation-delay: 0.1s;">
+  <!-- Salary Estimator -->
+  <div class="col-lg-5 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-cash-stack me-2"></i>Salary Estimator</h4>
+        
+        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4">
+          <input type="hidden" name="action" value="salary">
+          
+          <div class="mb-3">
+            <label class="form-label">Select Resume (for skills/experience)</label>
+            <select name="resume_id" class="form-select" required>
+              <option value="" disabled selected>Choose a resume...</option>
+              {% for r in resumes %}
+                <option value="{{ r.id }}">{{ r.filename }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label">Target Role</label>
+            <input type="text" name="role" class="form-control" placeholder="e.g. Data Scientist" required>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" class="form-control" placeholder="e.g. San Francisco, CA or Remote" required>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-calculator me-2"></i>Estimate Salary
+          </button>
+        </form>
+        
+        <hr class="my-4 opacity-25">
+        
+        <h5 class="mb-3 text-muted"><i class="bi bi-clock-history me-2"></i>Recent Estimates</h5>
+        {% if estimates %}
+          <div class="list-group list-group-flush">
+            {% for est in estimates[:5] %}
+              <div class="list-group-item border rounded mb-2 p-3 shadow-sm transition">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>
+                    <h6 class="mb-1 text-primary">{{ est.role }}</h6>
+                    <small class="text-muted"><i class="bi bi-geo-alt me-1"></i>{{ est.location }}</small>
+                    <div class="mt-2 fw-bold text-success">{{ est.estimate_data.get('estimated_range', 'N/A') }}</div>
+                  </div>
+                  <form method="POST" action="{{ url_for('career.delete_salary', est_id=est.id) }}" onsubmit="return confirm('Delete this estimate?');">
+                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted small">No salary estimates yet.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <!-- AI Career Coach -->
+  <div class="col-lg-7 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h4 class="card-title mb-4"><i class="bi bi-map me-2"></i>AI Career Coach</h4>
+        
+        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4">
+          <input type="hidden" name="action" value="roadmap">
+          <div class="input-group">
+            <select name="resume_id" class="form-select" required>
+              <option value="" disabled selected>Generate roadmap for resume...</option>
+              {% for r in resumes %}
+                <option value="{{ r.id }}" {% if current_resume and current_resume.id == r.id %}selected{% endif %}>{{ r.filename }}</option>
+              {% endfor %}
+            </select>
+            <button class="btn btn-success" type="submit"><i class="bi bi-magic me-2"></i>Generate Roadmap</button>
+          </div>
+        </form>
+        
+        {% if roadmap %}
+          <div class="p-4 bg-light rounded border shadow-sm mt-4 fade-in">
+            <h5 class="text-primary mb-3"><i class="bi bi-signpost-split me-2"></i>Your Personalized Roadmap</h5>
+            
+            <div class="row">
+              <div class="col-md-6 mb-4">
+                <h6 class="fw-bold text-dark"><i class="bi bi-book me-1"></i>Learning Roadmap</h6>
+                <ul class="list-unstyled mb-0">
+                  {% for step in roadmap.get('learning_roadmap', []) %}
+                    <li class="mb-2"><i class="bi bi-check2-circle text-success me-1"></i> {{ step }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <h6 class="fw-bold text-danger"><i class="bi bi-tools me-1"></i>Missing Technologies</h6>
+                <div class="d-flex flex-wrap gap-2">
+                  {% for tech in roadmap.get('missing_technologies', []) %}
+                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger">{{ tech }}</span>
+                  {% endfor %}
+                </div>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <h6 class="fw-bold text-info"><i class="bi bi-award me-1"></i>Recommended Certifications</h6>
+                <ul class="list-unstyled mb-0">
+                  {% for cert in roadmap.get('certifications', []) %}
+                    <li class="mb-1"><i class="bi bi-bookmark-star text-info me-1"></i> {{ cert }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <div class="col-md-6 mb-4">
+                <h6 class="fw-bold text-warning"><i class="bi bi-lightbulb me-1"></i>Project Ideas</h6>
+                <ul class="list-unstyled mb-0">
+                  {% for proj in roadmap.get('project_ideas', []) %}
+                    <li class="mb-1 small"><i class="bi bi-kanban text-warning me-1"></i> {{ proj }}</li>
+                  {% endfor %}
+                </ul>
+              </div>
+              
+              <div class="col-12 mt-2">
+                <div class="alert alert-primary border-0">
+                  <h6 class="fw-bold mb-2"><i class="bi bi-graph-up-arrow me-1"></i>Career Growth Suggestions</h6>
+                  <ul class="mb-0 ps-3">
+                    {% for sug in roadmap.get('career_growth_suggestions', []) %}
+                      <li class="mb-1">{{ sug }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% else %}
+          <div class="text-center py-5 mt-4 border rounded bg-light border-dashed">
+            <i class="bi bi-map text-muted opacity-50" style="font-size: 4rem;"></i>
+            <p class="text-muted mt-3 mb-0">Select a resume to generate your roadmap.</p>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
