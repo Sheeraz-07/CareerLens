@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row mb-4 fade-in">
+  <div class="col-12">
+    <h2 class="mb-2"><i class="bi bi-person-badge me-2"></i>User Profile & Settings</h2>
+    <p class="text-muted">Set up your global profile. The AI will use this context automatically when generating cover letters and matching jobs.</p>
+  </div>
+</div>
+
+<div class="row fade-in" style="animation-delay: 0.1s;">
+  <div class="col-lg-8 mb-4">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body p-4 p-md-5">
+        <h4 class="card-title mb-4"><i class="bi bi-person-lines-fill me-2"></i>Personal Details</h4>
+        
+        <form method="POST" action="{{ url_for('profile.index') }}">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Full Name</label>
+              <input type="text" name="name" class="form-control" value="{{ user.name or '' }}" placeholder="John Doe">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Location (City, Country)</label>
+              <input type="text" name="location" class="form-control" value="{{ user.location or '' }}" placeholder="e.g. San Francisco, CA">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Target Job Role</label>
+              <input type="text" name="target_role" class="form-control" value="{{ user.target_role or '' }}" placeholder="e.g. Senior Software Engineer">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Years of Experience</label>
+              <input type="number" name="years_of_experience" class="form-control" min="0" value="{{ user.years_of_experience or '' }}" placeholder="e.g. 5">
+            </div>
+          </div>
+          
+          <hr class="my-4 opacity-25">
+          <h4 class="card-title mb-4"><i class="bi bi-link-45deg me-2"></i>Links</h4>
+          
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label class="form-label">LinkedIn URL</label>
+              <input type="url" name="linkedin" class="form-control" value="{{ user.linkedin or '' }}" placeholder="https://linkedin.com/in/username">
+            </div>
+            
+            <div class="col-md-6 mb-3">
+              <label class="form-label">Portfolio / GitHub URL</label>
+              <input type="url" name="portfolio" class="form-control" value="{{ user.portfolio or '' }}" placeholder="https://github.com/username">
+            </div>
+          </div>
+          
+          <div class="text-end mt-4">
+            <button type="submit" class="btn btn-primary px-5">
+              <i class="bi bi-save me-2"></i>Save Profile
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col-lg-4 mb-4">
+    <div class="card border-0 shadow-sm h-100 bg-primary text-white">
+      <div class="card-body p-4 text-center d-flex flex-column justify-content-center align-items-center">
+        <i class="bi bi-robot" style="font-size: 5rem;"></i>
+        <h4 class="text-white mt-3 mb-2">Why Fill This Out?</h4>
+        <p class="text-white-50 small mb-0">
+          When generating a tailored resume or cover letter, the AI pulls these links and details to make the output more personalized, saving you time from typing them out repeatedly.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -13,7 +13,7 @@
       <div class="card-body">
         <h4 class="card-title mb-4"><i class="bi bi-gear-fill me-2"></i>New Job Match</h4>
         
-        <form method="POST" action="{{ url_for('job_match.index') }}">
+        <form method="POST" action="{{ url_for('job_match.index') }}" class="needs-loader">
           <div class="mb-3">
             <label class="form-label">Select Resume</label>
             <select name="resume_id" class="form-select" required>

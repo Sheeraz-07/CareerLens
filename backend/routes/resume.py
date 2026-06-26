@@ -1,5 +1,6 @@
 from flask import Blueprint, request, current_app, redirect, url_for, render_template, flash
 from flask_login import login_required, current_user
+# pyrefly: ignore [missing-import]
 from services.storage import allowed_file, save_upload
 from services.parser import parse_resume_file
 from services.ai_service import analyze_resume_text
@@ -24,9 +25,11 @@ def upload_resume():
         # Parse resume file content
         raw_text, parsed_data = parse_resume_file(path, filename)
         
+        target_role = request.form.get('target_role')
+        
         # AI analysis on parsed resume text
         try:
-            analysis = analyze_resume_text(raw_text, parsed_data)
+            analysis = analyze_resume_text(raw_text, parsed_data, target_role=target_role)
             # Debug prints
             print("[DEBUG] AI analysis result:", analysis)
         except Exception as e:

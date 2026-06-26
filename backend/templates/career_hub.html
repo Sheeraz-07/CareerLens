@@ -14,7 +14,7 @@
       <div class="card-body">
         <h4 class="card-title mb-4"><i class="bi bi-cash-stack me-2"></i>Salary Estimator</h4>
         
-        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4">
+        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4 needs-loader">
           <input type="hidden" name="action" value="salary">
           
           <div class="mb-3">
@@ -77,7 +77,7 @@
       <div class="card-body">
         <h4 class="card-title mb-4"><i class="bi bi-map me-2"></i>AI Career Coach</h4>
         
-        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4">
+        <form method="POST" action="{{ url_for('career.index') }}" class="mb-4 needs-loader">
           <input type="hidden" name="action" value="roadmap">
           <div class="input-group">
             <select name="resume_id" class="form-select" required>

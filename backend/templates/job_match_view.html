@@ -101,11 +101,14 @@
         </h4>
         <p class="text-muted small mb-3">This version of your resume has been optimized for the target job description based on your actual experience.</p>
         
-        <div class="bg-light p-4 rounded border" style="white-space: pre-wrap; font-family: 'Inter', sans-serif;">{{ match.tailored_resume }}</div>
+        <div id="tailored-resume-content" class="bg-light p-4 rounded border" style="white-space: pre-wrap; font-family: 'Inter', sans-serif;">{{ match.tailored_resume }}</div>
         
         <div class="mt-4">
-          <button class="btn btn-primary" onclick="copyToClipboard()">
+          <button class="btn btn-primary me-2" onclick="copyToClipboard()">
             <i class="bi bi-clipboard me-2"></i>Copy to Clipboard
+          </button>
+          <button class="btn btn-outline-primary export-pdf-btn" data-target="tailored-resume-content" data-filename="Tailored_Resume_{{ match.job_title|replace(' ', '_') }}.pdf">
+            <i class="bi bi-file-earmark-pdf me-2"></i>Download as PDF
           </button>
         </div>
       </div>

@@ -67,6 +67,92 @@
   </div>
 </div>
 
+<div class="row fade-in mb-4" style="animation-delay: 0.15s;">
+  <!-- ATS Scores Chart -->
+  <div class="col-lg-6 mb-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title text-primary mb-4"><i class="bi bi-graph-up me-2"></i>ATS Job Match Trends</h5>
+        <canvas id="atsChart" style="max-height: 300px;"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <!-- MCQ Quiz Accuracy Chart -->
+  <div class="col-lg-6 mb-3">
+    <div class="card border-0 shadow-sm h-100">
+      <div class="card-body">
+        <h5 class="card-title text-success mb-4"><i class="bi bi-ui-checks me-2"></i>Interview Prep Accuracy</h5>
+        <canvas id="mcqChart" style="max-height: 300px;"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const atsScores = JSON.parse('{{ ats_scores|safe }}');
+  const atsLabels = JSON.parse('{{ ats_labels|safe }}');
+  const mcqScores = JSON.parse('{{ mcq_scores|safe }}');
+  const mcqLabels = JSON.parse('{{ mcq_labels|safe }}');
+  
+  if (atsScores.length > 0) {
+    const atsCtx = document.getElementById('atsChart').getContext('2d');
+    new Chart(atsCtx, {
+      type: 'line',
+      data: {
+        labels: atsLabels,
+        datasets: [{
+          label: 'ATS Match Score (%)',
+          data: atsScores,
+          borderColor: '#0d6efd',
+          backgroundColor: 'rgba(13, 110, 253, 0.1)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 100 }
+        }
+      }
+    });
+  } else {
+    document.getElementById('atsChart').parentElement.innerHTML += "<p class='text-muted small mt-3 text-center'>No Job Matches yet. Try matching your resume!</p>";
+  }
+  
+  if (mcqScores.length > 0) {
+    const mcqCtx = document.getElementById('mcqChart').getContext('2d');
+    new Chart(mcqCtx, {
+      type: 'bar',
+      data: {
+        labels: mcqLabels,
+        datasets: [{
+          label: 'Quiz Score (Correct Answers)',
+          data: mcqScores,
+          backgroundColor: '#198754'
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 20 } // 20 questions max
+        }
+      }
+    });
+  } else {
+    document.getElementById('mcqChart').parentElement.innerHTML += "<p class='text-muted small mt-3 text-center'>No Interview Prep Quizzes taken yet.</p>";
+  }
+});
+</script>
+
 <div class="row fade-in" style="animation-delay: 0.2s;">
   <!-- Resumes Section -->
   <div class="col-lg-8 mb-4">

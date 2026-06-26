@@ -8,6 +8,7 @@ from routes.coverletter import coverletter_bp
 from routes.job_match import job_match_bp
 from routes.interview import interview_bp
 from routes.career import career_bp
+from routes.profile import profile_bp
 import models  # Import models to register user_loader decorator
 import os
 
@@ -15,6 +16,15 @@ def create_app():
     # Create Flask app instance
     # static_folder is relative to this file, adjust as per your folder structure
     app = Flask(__name__, template_folder="templates", static_folder="../static")
+
+    @app.context_processor
+    def inject_resumes():
+        from models import Resume
+        from flask_login import current_user
+        if current_user.is_authenticated:
+            resumes = Resume.query.filter_by(user_id=current_user.id).order_by(Resume.uploaded_at.desc()).all()
+            return dict(resumes=resumes)
+        return dict(resumes=[])
 
     # Load config from Config class
     app.config.from_object(Config)
@@ -56,6 +66,7 @@ def create_app():
     app.register_blueprint(job_match_bp)
     app.register_blueprint(interview_bp)
     app.register_blueprint(career_bp)
+    app.register_blueprint(profile_bp)
 
     # Home page route
     @app.route("/")
@@ -145,5 +156,8 @@ Please provide:
 Make the advice practical, specific, and encouraging. Format the response in a clear, readable way with proper sections and bullet points.
 """
         return prompt
+
+    from routes.chat import chat_bp
+    app.register_blueprint(chat_bp)
 
     return app

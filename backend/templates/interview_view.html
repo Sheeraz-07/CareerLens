@@ -12,133 +12,97 @@
   </div>
 </div>
 
+{% set is_evaluated = prep.score is not none %}
+
 <div class="row fade-in" style="animation-delay: 0.1s;">
   <div class="col-12">
-    <div class="card border-0 shadow-sm">
-      <div class="card-body p-0">
-        <!-- Navigation Tabs -->
-        <ul class="nav nav-tabs nav-fill p-3 border-bottom-0 pb-0" id="interviewTabs" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active fw-bold" id="tech-tab" data-bs-toggle="tab" data-bs-target="#tech" type="button" role="tab" aria-selected="true">
-              <i class="bi bi-code-square me-2"></i>Technical
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold" id="behavioral-tab" data-bs-toggle="tab" data-bs-target="#behavioral" type="button" role="tab" aria-selected="false">
-              <i class="bi bi-people me-2"></i>Behavioral
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold" id="project-tab" data-bs-toggle="tab" data-bs-target="#project" type="button" role="tab" aria-selected="false">
-              <i class="bi bi-kanban me-2"></i>Project-Based
-            </button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link fw-bold" id="hr-tab" data-bs-toggle="tab" data-bs-target="#hr" type="button" role="tab" aria-selected="false">
-              <i class="bi bi-building me-2"></i>HR/General
-            </button>
-          </li>
-        </ul>
-        
-        <!-- Tab Content -->
-        <div class="tab-content p-4" id="interviewTabsContent">
-          <!-- Technical -->
-          <div class="tab-pane fade show active" id="tech" role="tabpanel" aria-labelledby="tech-tab">
-            {% if prep.questions and prep.questions.get('technical') %}
-              <div class="accordion" id="accordionTech">
-                {% for q in prep.questions.get('technical', []) %}
-                  <div class="accordion-item mb-3 border rounded shadow-sm">
-                    <h2 class="accordion-header" id="headingTech{{ loop.index }}">
-                      <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTech{{ loop.index }}" aria-expanded="false" aria-controls="collapseTech{{ loop.index }}">
-                        Q{{ loop.index }}: {{ q }}
-                      </button>
-                    </h2>
-                    <div id="collapseTech{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="headingTech{{ loop.index }}" data-bs-parent="#accordionTech">
-                      <div class="accordion-body bg-light">
-                        <textarea class="form-control mb-2" rows="3" placeholder="Draft your answer here..."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <p class="text-muted">No technical questions available.</p>
-            {% endif %}
+    
+    {% if is_evaluated %}
+      <div class="card border-0 shadow-sm mb-4 bg-light">
+        <div class="card-body text-center py-4">
+          <h3 class="mb-3">Quiz Results</h3>
+          {% set total = prep.questions|length %}
+          {% set percentage = (prep.score / total) * 100 %}
+          <div class="display-4 fw-bold {% if percentage >= 80 %}text-success{% elif percentage >= 50 %}text-warning{% else %}text-danger{% endif %}">
+            {{ prep.score }} / {{ total }}
           </div>
-          
-          <!-- Behavioral -->
-          <div class="tab-pane fade" id="behavioral" role="tabpanel" aria-labelledby="behavioral-tab">
-            {% if prep.questions and prep.questions.get('behavioral') %}
-              <div class="accordion" id="accordionBehav">
-                {% for q in prep.questions.get('behavioral', []) %}
-                  <div class="accordion-item mb-3 border rounded shadow-sm">
-                    <h2 class="accordion-header" id="headingBehav{{ loop.index }}">
-                      <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBehav{{ loop.index }}" aria-expanded="false" aria-controls="collapseBehav{{ loop.index }}">
-                        Q{{ loop.index }}: {{ q }}
-                      </button>
-                    </h2>
-                    <div id="collapseBehav{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="headingBehav{{ loop.index }}" data-bs-parent="#accordionBehav">
-                      <div class="accordion-body bg-light">
-                        <p class="small text-muted"><i class="bi bi-info-circle me-1"></i>Use the STAR method: Situation, Task, Action, Result.</p>
-                        <textarea class="form-control mb-2" rows="3" placeholder="Draft your answer here..."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <p class="text-muted">No behavioral questions available.</p>
-            {% endif %}
-          </div>
-          
-          <!-- Project-Based -->
-          <div class="tab-pane fade" id="project" role="tabpanel" aria-labelledby="project-tab">
-            {% if prep.questions and prep.questions.get('project_based') %}
-              <div class="accordion" id="accordionProj">
-                {% for q in prep.questions.get('project_based', []) %}
-                  <div class="accordion-item mb-3 border rounded shadow-sm">
-                    <h2 class="accordion-header" id="headingProj{{ loop.index }}">
-                      <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseProj{{ loop.index }}" aria-expanded="false" aria-controls="collapseProj{{ loop.index }}">
-                        Q{{ loop.index }}: {{ q }}
-                      </button>
-                    </h2>
-                    <div id="collapseProj{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="headingProj{{ loop.index }}" data-bs-parent="#accordionProj">
-                      <div class="accordion-body bg-light">
-                        <textarea class="form-control mb-2" rows="3" placeholder="Draft your answer here..."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <p class="text-muted">No project-based questions available.</p>
-            {% endif %}
-          </div>
-          
-          <!-- HR/General -->
-          <div class="tab-pane fade" id="hr" role="tabpanel" aria-labelledby="hr-tab">
-            {% if prep.questions and prep.questions.get('hr') %}
-              <div class="accordion" id="accordionHR">
-                {% for q in prep.questions.get('hr', []) %}
-                  <div class="accordion-item mb-3 border rounded shadow-sm">
-                    <h2 class="accordion-header" id="headingHR{{ loop.index }}">
-                      <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHR{{ loop.index }}" aria-expanded="false" aria-controls="collapseHR{{ loop.index }}">
-                        Q{{ loop.index }}: {{ q }}
-                      </button>
-                    </h2>
-                    <div id="collapseHR{{ loop.index }}" class="accordion-collapse collapse" aria-labelledby="headingHR{{ loop.index }}" data-bs-parent="#accordionHR">
-                      <div class="accordion-body bg-light">
-                        <textarea class="form-control mb-2" rows="3" placeholder="Draft your answer here..."></textarea>
-                      </div>
-                    </div>
-                  </div>
-                {% endfor %}
-              </div>
-            {% else %}
-              <p class="text-muted">No HR questions available.</p>
-            {% endif %}
-          </div>
+          <p class="text-muted mt-2">({{ percentage|round|int }}%)</p>
         </div>
+      </div>
+    {% endif %}
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        
+        {% if not prep.questions %}
+          <div class="text-center text-muted py-5">
+            <i class="bi bi-exclamation-circle" style="font-size: 3rem;"></i>
+            <p class="mt-3">No questions were generated. The AI format may have been incorrect.</p>
+          </div>
+        {% elif not is_evaluated %}
+          <form method="POST" action="{{ url_for('interview.evaluate', prep_id=prep.id) }}">
+            {% for q in prep.questions %}
+              {% set outer_loop_idx = loop.index0 %}
+              <div class="mb-4 border-bottom pb-4">
+                <h5 class="fw-bold mb-3"><span class="text-primary me-2">{{ loop.index }}.</span>{{ q.question }}</h5>
+                <div class="ps-4">
+                  {% for opt in q.options %}
+                    <div class="form-check mb-2">
+                      <input class="form-check-input" type="radio" name="q_{{ outer_loop_idx }}" id="q_{{ outer_loop_idx }}_opt_{{ loop.index0 }}" value="{{ loop.index0 }}" required>
+                      <label class="form-check-label" for="q_{{ outer_loop_idx }}_opt_{{ loop.index0 }}">
+                        {{ opt }}
+                      </label>
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endfor %}
+            <div class="text-end">
+              <button type="submit" class="btn btn-primary btn-lg">
+                <i class="bi bi-check-circle me-2"></i>Submit Answers
+              </button>
+            </div>
+          </form>
+        {% else %}
+          {% for q in prep.questions %}
+            {% set user_ans = prep.user_answers.get(loop.index0|string) %}
+            {% set correct_ans = q.correct_answer_index %}
+            {% set is_correct = user_ans == correct_ans %}
+            
+            <div class="mb-4 border rounded p-4 shadow-sm {% if is_correct %}bg-success bg-opacity-10 border-success{% else %}bg-danger bg-opacity-10 border-danger{% endif %}">
+              <h5 class="fw-bold mb-3">
+                <span class="me-2 {% if is_correct %}text-success{% else %}text-danger{% endif %}">
+                  <i class="bi {% if is_correct %}bi-check-circle-fill{% else %}bi-x-circle-fill{% endif %}"></i> {{ loop.index }}.
+                </span>
+                {{ q.question }}
+              </h5>
+              
+              <div class="ps-4 mb-3">
+                {% for opt in q.options %}
+                  {% set is_selected = loop.index0 == user_ans %}
+                  {% set is_actual_correct = loop.index0 == correct_ans %}
+                  
+                  <div class="form-check mb-2">
+                    <input class="form-check-input" type="radio" disabled {% if is_selected %}checked{% endif %}>
+                    <label class="form-check-label 
+                      {% if is_actual_correct %}fw-bold text-success{% endif %}
+                      {% if is_selected and not is_correct %}text-danger text-decoration-line-through{% endif %}
+                    ">
+                      {{ opt }}
+                      {% if is_actual_correct %} <i class="bi bi-check text-success"></i> {% endif %}
+                      {% if is_selected and not is_correct %} <i class="bi bi-x text-danger"></i> {% endif %}
+                    </label>
+                  </div>
+                {% endfor %}
+              </div>
+              
+              <div class="alert alert-info border-0 mb-0">
+                <h6 class="fw-bold text-info-emphasis mb-1"><i class="bi bi-info-circle me-2"></i>Explanation</h6>
+                <p class="mb-0 small text-info-emphasis">{{ q.explanation }}</p>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
         
       </div>
     </div>

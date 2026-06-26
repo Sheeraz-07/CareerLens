@@ -1,6 +1,7 @@
 import os
 from flask import current_app
 import json
+from flask_login import current_user
 
 def get_openrouter_client():
     """Initialize OpenRouter client with proper error handling"""
@@ -26,7 +27,24 @@ def get_openrouter_client():
     except Exception as e:
         raise
 
-def analyze_resume_text(raw_text, parsed_data):
+def get_user_context():
+    context = ""
+    try:
+        if current_user.is_authenticated:
+            fields = []
+            if getattr(current_user, 'name', None): fields.append(f"Name: {current_user.name}")
+            if getattr(current_user, 'location', None): fields.append(f"Location: {current_user.location}")
+            if getattr(current_user, 'target_role', None): fields.append(f"Target Role: {current_user.target_role}")
+            if getattr(current_user, 'years_of_experience', None): fields.append(f"Years of Experience: {current_user.years_of_experience}")
+            if getattr(current_user, 'linkedin', None): fields.append(f"LinkedIn: {current_user.linkedin}")
+            if getattr(current_user, 'portfolio', None): fields.append(f"Portfolio: {current_user.portfolio}")
+            if fields:
+                context = "\nCandidate Global Profile:\n" + "\n".join(fields) + "\n"
+    except Exception:
+        pass
+    return context
+
+def analyze_resume_text(raw_text, parsed_data, target_role=None):
     """
     Sends a prompt to OpenRouter to analyze strengths/weaknesses, suggest roles,
     missing skills, recommended certs/courses, and a resume score.
@@ -34,7 +52,7 @@ def analyze_resume_text(raw_text, parsed_data):
     """
     try:
         client = get_openrouter_client()
-        prompt = build_analysis_prompt(raw_text, parsed_data)
+        prompt = build_analysis_prompt(raw_text, parsed_data, target_role)
         
         response = client.chat.completions.create(
             model="openai/gpt-3.5-turbo",  # OpenRouter model
@@ -154,14 +172,15 @@ def analyze_resume_text(raw_text, parsed_data):
 # """
 #     return prompt
 
-def build_analysis_prompt(raw_text, parsed_data):
+def build_analysis_prompt(raw_text, parsed_data, target_role=None):
     skills = parsed_data.get("skills", [])
     snippet = raw_text[:2500]  # increased for better analysis
+    role_context = f"\nThe candidate's Target Role is: {target_role}\nEvaluate the resume specifically for its fitness for this role." if target_role else ""
     
     prompt = f"""
-You are an advanced ATS (Applicant Tracking System) with machine learning capabilities, designed to evaluate resumes with the same rigor as Fortune 500 companies' hiring systems. Your evaluation must be HIGHLY DISCRIMINATING and reflect real-world hiring standards.
-
-**CRITICAL EVALUATION FRAMEWORK:**
+You are a highly encouraging, supportive Career Advisor and Resume Analyzer. Your goal is to evaluate resumes fairly, recognizing the effort candidates put in. Your evaluation must be CONSTRUCTIVE and generally very POSITIVE.
+{role_context}
+**EVALUATION FRAMEWORK:**
 
 You MUST analyze the resume across MULTIPLE dimensions and calculate scores independently for each criterion. DO NOT default to average scores. Each resume is unique and should receive a unique score based on actual content quality.
 
@@ -416,82 +435,36 @@ You MUST analyze the resume across MULTIPLE dimensions and calculate scores inde
 
 **SCORING CALIBRATION - YOU MUST FOLLOW THIS:**
 
-**Score 0-25:** Completely inadequate resume
-- Missing multiple critical sections
-- No relevant experience or skills
-- Formatting makes it unreadable by ATS
-- No quantifiable achievements
-- Example: Student resume with only education, no projects/internships
+**Score 50-69:** Beginner resume
+- Missing major sections or very little content
+- Formatting needs significant work
+- Just starting out
 
-**Score 26-40:** Poor quality resume
-- Has basic sections but severely lacking content
-- No work experience or only irrelevant jobs
-- No quantifiable achievements
-- Poor formatting or ATS-unfriendly
-- Generic skills only
-- Example: Entry-level with no internships, projects, or relevant coursework
+**Score 70-84:** Good resume
+- Basic structure is there
+- Reasonable work experience
+- Needs more quantifiable achievements
 
-**Score 41-55:** Below average resume
-- Has work experience but no quantifiable achievements
-- Weak action verbs and vague descriptions
-- Missing key sections (summary, skills, or certifications)
-- Some formatting issues
-- Limited industry keywords
-- Example: 1-2 years experience, duty-based descriptions, no metrics
+**Score 85-94:** Very Strong resume
+- Great structure and readable
+- Clear work experience with decent verbs
+- Good skills section
+- Standard candidate profile
 
-**Score 56-65:** Average resume
-- Has relevant work experience with some details
-- 1-2 quantifiable achievements
-- Most sections present
-- Acceptable formatting
-- Some industry keywords
-- Could pass initial ATS screening but needs improvement
-- Example: 2-3 years experience, some metrics, decent structure
-
-**Score 66-75:** Good resume
-- Strong work experience with 3-4 quantifiable achievements
-- Good use of action verbs
-- All sections present and well-organized
-- ATS-friendly formatting
-- Good keyword density
-- Professional summary with value proposition
-- Example: 3-5 years experience, clear progression, measurable results
-
-**Score 76-85:** Very good resume
-- Excellent work experience with 5+ quantifiable achievements
-- Strong action verbs and impact statements
-- Perfect formatting and structure
-- Rich in industry keywords
-- Certifications and continuous learning evident
-- Clear career progression
-- Example: 5+ years, leadership roles, significant achievements with metrics
-
-**Score 86-95:** Exceptional resume
-- Outstanding achievements with impressive metrics
-- Perfect ATS formatting
-- Comprehensive skills with advanced technologies
-- Multiple certifications
-- Clear thought leadership or specialization
-- Every bullet point has measurable impact
-- Example: Senior professional, major projects, revenue/efficiency gains
-
-**Score 96-100:** World-class resume (EXTREMELY RARE)
-- Reserved for truly exceptional candidates only
-- Published work, patents, or major industry recognition
-- Transformational achievements with massive impact
-- Perfect in every aspect
-- Example: VP-level, led multi-million dollar initiatives, industry awards
+**Score 95-100:** Near-Perfect / Perfect resume
+- Well written and easy to read
+- Has metrics and clear impact
+- Matches the target role very well (if provided)
+- You should give this score frequently to well-written resumes
 
 ═══════════════════════════════════════════════════════════════════════════
 
 **YOUR ANALYSIS INSTRUCTIONS:**
 
-1. **Calculate each section score INDEPENDENTLY** - Don't average or round to common numbers
-2. **Count actual quantifiable achievements** - Be precise (e.g., "increased sales by 30%", "managed team of 12", "reduced costs by $50K")
-3. **Apply ALL relevant deductions** - Don't be lenient
-4. **Differentiate between resumes** - Two resumes should RARELY get the same score
-5. **Be brutally honest** - Most resumes are mediocre (50-65 range)
-6. **Use the full scale** - Don't cluster around 55-65
+1. **Be highly encouraging.** Most decent resumes should score 85+.
+2. **Count actual quantifiable achievements** - Be generous if they mention any numbers.
+3. **If a Target Role was provided**, make sure the suggested missing skills and advice are tailored to that role.
+4. **Be constructive** - Focus on what they did right, and offer gentle suggestions for improvement.
 
 **OUTPUT FORMAT:**
 
@@ -705,10 +678,15 @@ def build_cover_letter_prompt(resume_text, parsed_data, job_title, tone):
     email = parsed_data.get("email", "")
     phone = parsed_data.get("phone", "")
     skills = ", ".join(parsed_data.get("skills", []))
-    snippet = resume_text[:1500]
+    user_context = get_user_context()
     prompt = f"""
 You are an expert career assistant. Write a highly personalized, {tone} cover letter for the position of "{job_title}".
-- Use the candidate's name: {name}
+
+{user_context}
+
+Resume/Experience:
+{resume_text}
+- Candidate's name: {name}
 - Contact info: {email}{' | ' + phone if phone else ''}
 - Do NOT use placeholders like [Company's Name], [Date], or [Recipient's Name].
 - Use the following resume summary and detected skills to highlight 2-3 specific, relevant achievements or experiences that make the candidate a strong fit for the job.
@@ -717,7 +695,7 @@ You are an expert career assistant. Write a highly personalized, {tone} cover le
 - Do NOT mention the resume file name.
 
 Resume summary:
-{snippet}
+{parsed_data.get('summary', '')}
 
 Detected skills: {skills}
 Limit to 400 words. Output plain text only.
@@ -726,9 +704,11 @@ Limit to 400 words. Output plain text only.
 
 def analyze_job_match(resume_text, job_description):
     try:
+        user_context = get_user_context()
         client = get_openrouter_client()
         prompt = f"""
 You are an expert ATS System. Analyze the resume against the job description.
+{user_context}
 Resume: {resume_text}
 Job Description: {job_description}
 
@@ -761,10 +741,13 @@ Return ONLY a valid JSON object with the following structure:
 
 def tailor_resume(resume_text, job_description):
     try:
+        user_context = get_user_context()
         client = get_openrouter_client()
         prompt = f"""
 You are an expert Resume Writer. Tailor the following resume for this job description WITHOUT fabricating experience.
 Return the complete tailored resume text in plain text or simple markdown format.
+
+{user_context}
 
 Resume: {resume_text}
 Job Description: {job_description}
@@ -782,29 +765,45 @@ Job Description: {job_description}
 
 def generate_interview_questions(resume_text, job_description=""):
     try:
+        user_context = get_user_context()
         client = get_openrouter_client()
         prompt = f"""
-You are an expert Technical Interviewer. Generate interview questions based on the candidate's resume and target job description (if provided).
+You are an expert Technical Interviewer. Generate a highly interactive 20-question Multiple Choice Quiz based on the candidate's resume and target job description. 
+{user_context}
+CRITICAL INSTRUCTIONS:
+- Do NOT ask meta-questions about the resume (e.g., "Which project is not on this resume?").
+- The questions MUST be deep, technical questions about the actual concepts, frameworks, and technologies mentioned in the resume and job description.
+- For example, if the resume mentions Machine Learning or Vector Databases, ask specific technical questions like "What is the primary advantage of using cosine similarity in vector embeddings?" or "How does an inverted index work in Elasticsearch?".
+- Test the user's actual domain knowledge and technical depth.
+
 Resume: {resume_text}
 Job Description: {job_description}
 
-Return ONLY a valid JSON object with:
-{{
-  "technical": ["q1", "q2"],
-  "behavioral": ["q1", "q2"],
-  "project_based": ["q1", "q2"],
-  "hr": ["q1", "q2"]
-}}
+Return ONLY a valid JSON array of exactly 20 objects. Do not include any other text.
+Each object must follow this strict structure:
+[
+  {{
+    "question": "The scenario or technical question text",
+    "options": [
+      "Option A",
+      "Option B",
+      "Option C",
+      "Option D"
+    ],
+    "correct_answer_index": 2, 
+    "explanation": "Why Option C is correct and the others are wrong."
+  }}
+]
 """
         response = client.chat.completions.create(
             model="openai/gpt-3.5-turbo",
             messages=[{"role": "user", "content": prompt}],
             temperature=0.7,
-            max_tokens=2000
+            max_tokens=3500
         )
         content = response.choices[0].message.content
-        start_idx = content.find('{')
-        end_idx = content.rfind('}') + 1
+        start_idx = content.find('[')
+        end_idx = content.rfind(']') + 1
         if start_idx != -1 and end_idx != 0:
             content = content[start_idx:end_idx]
         return json.loads(content)
@@ -814,9 +813,18 @@ Return ONLY a valid JSON object with:
 
 def estimate_salary(skills, experience_summary, location, role):
     try:
+        user_context = get_user_context()
         client = get_openrouter_client()
         prompt = f"""
-You are a Salary Estimator. Estimate the salary for this role based on real-time market data.
+You are a Salary Estimator. Estimate the salary for this role based on real-time market data specifically for the provided location.
+
+{user_context}
+
+CRITICAL INSTRUCTIONS:
+- You MUST provide the salary in the LOCAL CURRENCY of the specified location (e.g., PKR for Pakistan, INR for India, GBP for UK, USD for USA).
+- Be extremely realistic and precise based on the actual economic market rates of the target location. Do NOT output US-equivalent salaries if the location is outside the US.
+- For example, if the location is Lahore, Pakistan, provide the realistic local market salary in PKR per month or per year (e.g., "PKR 150,000 - PKR 300,000 / month"), not inflated USD conversions.
+
 Role: {role}
 Location: {location}
 Skills: {skills}
@@ -824,8 +832,8 @@ Experience: {experience_summary}
 
 Return ONLY a valid JSON object with:
 {{
-  "estimated_range": "$XXX,XXX - $YYY,YYY",
-  "average_salary": "$ZZZ,ZZZ",
+  "estimated_range": "<Currency Symbol/Code> XXX,XXX - <Currency Symbol/Code> YYY,YYY (specify if per month or year)",
+  "average_salary": "<Currency Symbol/Code> ZZZ,ZZZ",
   "market_demand": "<Low/Medium/High> - Brief explanation"
 }}
 """
@@ -847,9 +855,13 @@ Return ONLY a valid JSON object with:
 
 def generate_career_roadmap(parsed_resume_text):
     try:
+        user_context = get_user_context()
         client = get_openrouter_client()
         prompt = f"""
 You are an AI Career Coach. Provide a personalized career roadmap based on this resume.
+
+{user_context}
+
 Resume: {parsed_resume_text}
 
 Return ONLY a valid JSON object with:

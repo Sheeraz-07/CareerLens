@@ -1,0 +1,316 @@
+{% if current_user.is_authenticated and resumes %}
+<!-- AI Copilot Chat Widget -->
+<div id="ai-chat-widget">
+    <!-- Chat Button -->
+    <button id="chat-widget-toggle" class="btn btn-primary rounded-circle shadow-lg d-flex align-items-center justify-content-center" style="width: 60px; height: 60px; position: fixed; bottom: 30px; right: 30px; z-index: 1050; border: none;">
+        <i class="bi bi-chat-dots-fill fs-3"></i>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chat-widget-window" class="card shadow-lg border-0 d-none" style="width: 400px; height: 600px; max-height: calc(100vh - 120px); position: fixed; bottom: 100px; right: 30px; z-index: 1050; display: flex; flex-direction: column; overflow: hidden; border-radius: 1.2rem; background-color: #ffffff;">
+        <!-- Header -->
+        <div class="card-header text-white d-flex justify-content-between align-items-center p-3 border-0" style="background: linear-gradient(135deg, #0d6efd, #0b5ed7);">
+            <div class="d-flex align-items-center">
+                <div class="bg-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                    <i class="bi bi-robot fs-4 text-primary"></i>
+                </div>
+                <div>
+                    <h6 class="mb-0 fw-bold" style="letter-spacing: 0.5px;">Career Copilot</h6>
+                    <small class="text-white-50" style="font-size: 0.75rem;">AI Resume Assistant</small>
+                </div>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button id="chat-widget-minimize" class="btn btn-sm btn-link text-white p-0" title="Minimize Panel">
+                    <i class="bi bi-dash-lg fs-5"></i>
+                </button>
+                <button id="chat-widget-close" class="btn btn-sm btn-link text-white p-0" title="Close Panel">
+                    <i class="bi bi-x-lg fs-5"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Context Selector -->
+        <div class="bg-light p-2 border-bottom d-flex align-items-center justify-content-between gap-2" style="font-size: 0.85rem;">
+            <div class="d-flex align-items-center w-100">
+                <i class="bi bi-file-earmark-text text-secondary ms-1"></i>
+                <select id="chat-resume-select" class="form-select form-select-sm border-0 bg-transparent shadow-none fw-semibold text-secondary" style="cursor: pointer;">
+                    <option value="" disabled selected>Select a resume context...</option>
+                    {% for r in resumes %}
+                        <option value="{{ r.id }}">Context: {{ r.filename }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <a href="/dashboard/" class="btn btn-sm btn-outline-primary py-0" style="font-size: 0.75rem; white-space: nowrap;">+ New</a>
+        </div>
+
+        <!-- Chat Body -->
+        <div id="chat-messages" class="card-body p-3 overflow-auto d-flex flex-column" style="flex: 1; background-color: #f4f6f9; scroll-behavior: smooth;">
+            <!-- Welcome Message -->
+            <div class="chat-message bot mb-4 w-100">
+                <div class="d-flex">
+                    <div class="bg-white text-dark rounded-4 p-3 shadow-sm border border-light" style="max-width: 85%; font-size: 0.95rem; line-height: 1.5;">
+                        <p class="mb-2 fw-semibold text-primary"><i class="bi bi-stars me-1"></i> Hi! I'm your AI Career Copilot.</p>
+                        I can answer questions about your resume, generate cover letters, estimate salaries, and help you prepare for interviews.<br><br>
+                        <strong>Please select a resume from the dropdown above to get started!</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggested Prompts -->
+        <div id="chat-suggestions" class="bg-white px-3 py-2 border-top d-flex flex-wrap gap-2 shadow-sm" style="font-size: 0.8rem;">
+            <span class="text-muted small w-100 mb-1 fw-semibold">Try asking:</span>
+            <button class="btn btn-sm text-primary bg-primary bg-opacity-10 border-0 rounded-pill py-1 px-3 prompt-chip fw-medium hover-bg-primary hover-text-white transition-colors">What are my strengths?</button>
+            <button class="btn btn-sm text-primary bg-primary bg-opacity-10 border-0 rounded-pill py-1 px-3 prompt-chip fw-medium hover-bg-primary hover-text-white transition-colors">Generate Cover Letter</button>
+            <button class="btn btn-sm text-primary bg-primary bg-opacity-10 border-0 rounded-pill py-1 px-3 prompt-chip fw-medium hover-bg-primary hover-text-white transition-colors">Simulate Interview</button>
+        </div>
+
+        <!-- Typing/Status Indicator -->
+        <div id="chat-status-bar" class="px-3 py-2 d-none bg-white border-top border-bottom" style="font-size: 0.8rem;">
+            <div class="d-flex align-items-center text-primary fw-medium">
+                <div class="spinner-grow spinner-grow-sm me-2" role="status" style="width: 1rem; height: 1rem;">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <span id="chat-status-text" class="text-muted">Thinking...</span>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="card-footer bg-white border-0 p-3 pt-2">
+            <form id="chat-form" class="d-flex align-items-center m-0 position-relative">
+                <input type="text" id="chat-input" class="form-control border bg-light rounded-pill pe-5 ps-4 py-2" placeholder="Message Copilot..." autocomplete="off" required style="box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);">
+                <button type="submit" id="chat-submit-btn" class="btn btn-primary rounded-circle shadow-sm d-flex align-items-center justify-content-center position-absolute" style="width: 36px; height: 36px; right: 4px; top: 50%; transform: translateY(-50%); transition: all 0.2s;">
+                    <i class="bi bi-send-fill" style="margin-left: -2px;"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+<style>
+    .prompt-chip:hover {
+        background-color: #0d6efd !important;
+        color: white !important;
+    }
+    #chat-messages::-webkit-scrollbar {
+        width: 6px;
+    }
+    #chat-messages::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    #chat-messages::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.1);
+        border-radius: 10px;
+    }
+    #chat-messages::-webkit-scrollbar-thumb:hover {
+        background: rgba(0,0,0,0.2);
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const chatToggle = document.getElementById('chat-widget-toggle');
+    const chatWindow = document.getElementById('chat-widget-window');
+    const chatClose = document.getElementById('chat-widget-close');
+    const chatMinimize = document.getElementById('chat-widget-minimize');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const chatMessages = document.getElementById('chat-messages');
+    const chatStatusBar = document.getElementById('chat-status-bar');
+    const chatStatusText = document.getElementById('chat-status-text');
+    const chatSubmitBtn = document.getElementById('chat-submit-btn');
+    const resumeSelect = document.getElementById('chat-resume-select');
+    
+    let currentSessionId = null;
+
+    // Toggle logic
+    chatToggle.addEventListener('click', () => {
+        chatWindow.classList.remove('d-none');
+        chatToggle.style.transform = 'scale(0)';
+        initChatSession();
+    });
+
+    chatClose.addEventListener('click', () => {
+        chatWindow.classList.add('d-none');
+        chatToggle.style.transform = 'scale(1)';
+    });
+
+    if(chatMinimize) {
+        chatMinimize.addEventListener('click', () => {
+            chatWindow.classList.add('d-none');
+            chatToggle.style.transform = 'scale(1)';
+        });
+    }
+
+    // Handle chips
+    document.querySelectorAll('.prompt-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            chatInput.value = this.innerText;
+            chatForm.dispatchEvent(new Event('submit'));
+        });
+    });
+
+    // Initialize session when opened
+    function initChatSession() {
+        fetch('/chat/api/session', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({ resume_id: resumeSelect.value || null })
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.session_id) {
+                currentSessionId = data.session_id;
+                if (data.history && data.history.length > 0) {
+                    chatMessages.innerHTML = ''; // Clear default welcome
+                    data.history.forEach(msg => {
+                        appendMessage(msg.role, msg.content, false);
+                    });
+                    scrollToBottom();
+                }
+            }
+        }).catch(err => console.error("Chat init error:", err));
+    }
+
+    resumeSelect.addEventListener('change', () => {
+        chatMessages.innerHTML = ''; // Clear chat when context changes
+        currentSessionId = null;
+        initChatSession();
+    });
+
+    function createMessageBubble(role) {
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `chat-message ${role} mb-3 w-100 d-flex ${role === 'user' ? 'justify-content-end' : 'justify-content-start'}`;
+        
+        const innerContainer = document.createElement('div');
+        innerContainer.className = `p-2 rounded position-relative ${role === 'user' ? 'bg-primary text-white' : 'bg-light text-dark border'}`;
+        innerContainer.style.maxWidth = '85%';
+        innerContainer.style.fontSize = '0.9rem';
+        
+        const contentDiv = document.createElement('div');
+        contentDiv.className = 'msg-content';
+        innerContainer.appendChild(contentDiv);
+
+        // Add copy button for assistant
+        if (role === 'assistant') {
+            const copyBtn = document.createElement('button');
+            copyBtn.innerHTML = '<i class="bi bi-clipboard"></i>';
+            copyBtn.className = 'btn btn-sm text-secondary p-0 position-absolute';
+            copyBtn.style.right = '5px';
+            copyBtn.style.top = '5px';
+            copyBtn.style.opacity = '0.5';
+            
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(contentDiv.innerText);
+                copyBtn.innerHTML = '<i class="bi bi-check2 text-success"></i>';
+                setTimeout(() => copyBtn.innerHTML = '<i class="bi bi-clipboard"></i>', 2000);
+            });
+            innerContainer.appendChild(copyBtn);
+            // Add padding so copy button doesn't overlap text
+            contentDiv.style.paddingRight = '20px';
+        }
+
+        msgDiv.appendChild(innerContainer);
+        chatMessages.appendChild(msgDiv);
+        scrollToBottom();
+        return contentDiv;
+    }
+
+    function appendMessage(role, content, animate=true) {
+        const contentDiv = createMessageBubble(role);
+        if (role === 'assistant') {
+            contentDiv.innerHTML = marked.parse(content);
+        } else {
+            contentDiv.textContent = content;
+        }
+        scrollToBottom();
+    }
+
+    function scrollToBottom() {
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function handleStreamSubmit(e) {
+        e.preventDefault();
+        const content = chatInput.value.trim();
+        const resumeId = resumeSelect.value || null;
+        
+        if (!content || !currentSessionId) return;
+
+        // User message
+        appendMessage('user', content);
+        chatInput.value = '';
+        
+        // Disable input
+        chatInput.disabled = true;
+        chatSubmitBtn.disabled = true;
+        
+        // Show status
+        chatStatusBar.classList.remove('d-none');
+        chatStatusText.innerText = 'Connecting...';
+        scrollToBottom();
+
+        // Create empty assistant bubble for streaming
+        const assistantContentDiv = createMessageBubble('assistant');
+        let fullResponse = "";
+
+        try {
+            const response = await fetch('/chat/api/message/stream', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'text/event-stream'
+                },
+                body: JSON.stringify({
+                    session_id: currentSessionId,
+                    resume_id: resumeId,
+                    content: content
+                })
+            });
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                
+                const chunk = decoder.decode(value);
+                const lines = chunk.split('\n');
+                
+                for (const line of lines) {
+                    if (line.startsWith('data: ')) {
+                        try {
+                            const data = JSON.parse(line.substring(6));
+                            if (data.status) {
+                                chatStatusText.innerText = data.status;
+                            } else if (data.content) {
+                                fullResponse += data.content;
+                                assistantContentDiv.innerHTML = marked.parse(fullResponse);
+                                scrollToBottom();
+                            } else if (data.done) {
+                                break;
+                            } else if (data.error) {
+                                assistantContentDiv.innerHTML = `<span class="text-danger">Error: ${data.error}</span>`;
+                            }
+                        } catch (e) {
+                            console.error("Parse error:", e, line);
+                        }
+                    }
+                }
+            }
+        } catch (err) {
+            console.error(err);
+            assistantContentDiv.innerHTML = `<span class="text-danger">Network Error.</span>`;
+        } finally {
+            chatStatusBar.classList.add('d-none');
+            chatInput.disabled = false;
+            chatSubmitBtn.disabled = false;
+            chatInput.focus();
+        }
+    }
+
+    chatForm.addEventListener('submit', handleStreamSubmit);
+});
+</script>
+{% endif %}
