@@ -21,6 +21,17 @@ def create_coverletter(resume_id):
         return redirect(url_for('dashboard.home'))
     return render_template('coverletter.html', resume=resume)
 
+@coverletter_bp.route('/<int:cover_id>/view')
+@login_required
+def view_coverletter(cover_id):
+    cl = CoverLetter.query.get_or_404(cover_id)
+    # Only allow view if current user owns the resume
+    if not cl.resume_id or Resume.query.get(cl.resume_id).user_id != current_user.id:
+        flash('Unauthorized', 'danger')
+        return redirect(url_for('dashboard.home'))
+    return render_template('coverletter_view.html', coverletter=cl)
+
+
 @coverletter_bp.route('/download/<int:cover_id>')
 @login_required
 def download_coverletter(cover_id):
